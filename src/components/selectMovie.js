@@ -4,8 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Loading from "./loading";
 
-export default function SelectMovie({ setMovieID }) {
-  
+export default function SelectMovie() { 
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -21,10 +20,6 @@ export default function SelectMovie({ setMovieID }) {
     });
   }, []);
 
-  function handleClick(id) {
-    setMovieID(id);
-  }
-
   return (
     <>
     {(movies.length === 0) && <Loading />}
@@ -34,7 +29,7 @@ export default function SelectMovie({ setMovieID }) {
         return (
           <MovieBanner key={movie.id}>
             <Link to={`/sessoes/${movie.id}`}>
-              <MovieImg src={movie.posterURL} onClick={() => handleClick(movie.id)} />
+              <MovieImg src={movie.posterURL} />
             </Link>
             <p>{movie.title}</p>
           </MovieBanner>
@@ -76,7 +71,8 @@ const MovieBanner = styled.div`
   box-shadow: 0px 0px 26px -7px #666666;
 
   p {
-    margin: 8px;
+    margin: auto 0 auto;
+    padding: 8px;
     font-weight: 500;
     text-align: center;
     font-family: "Roboto", sans-serif;

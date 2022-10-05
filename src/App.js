@@ -8,7 +8,8 @@ import ConfirmOrder from '../src/components/confirmOrder';
 import { useState } from "react";
 
 function App() {
-  const [movieID, setMovieID] = useState('');
+  const [movieID, setMovieID] = useState();
+  const [sessionID, setSessionID] = useState();
   
   return (
     <>
@@ -17,9 +18,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<SelectMovie setMovieID = {setMovieID} />}/>
-        <Route path="/sessoes/:idFilme" element={<SelectSession movieID = {movieID}/>}/>
-        <Route path="/assentos/:idSessao" element={<SelectSeats />}/>
-        <Route path="/confirm/:idOrder" element={<ConfirmOrder />}/>
+        <Route path="/sessoes/:movieId" element={<SelectSession movieID = {movieID} setSessionID={setSessionID}/>}/>
+        <Route path="/assentos/:sessionId" element={<SelectSeats sessionID={sessionID}/>}/>
+        <Route path="/confirm/:orderId" element={<ConfirmOrder />}/> {/*Posso usar o orderId como um join da array de selecionados unidos por um caractere especial que depois posso separar*/}
       </Routes>
     </BrowserRouter>
     </>

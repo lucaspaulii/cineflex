@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Loading from "./loading";
 
-export default function SelectSession({ movieID }) {
+export default function SelectSession() {
   const [sessions, setSessions] = useState([]);
   const [movieData, setMovieData] = useState([]);
+  const { movieId } = useParams()
 
   useEffect(() => {
-    const URL = `https://mock-api.driven.com.br/api/v5/cineflex/movies/${movieID}/showtimes`;
+    const URL = `https://mock-api.driven.com.br/api/v5/cineflex/movies/${movieId}/showtimes`;
     const promise = axios.get(URL);
     promise.then((response) => {
       setSessions(response.data.days);
@@ -19,7 +21,7 @@ export default function SelectSession({ movieID }) {
         "something went wrong, please check your internet connection and try again"
       );
     });
-  }, [movieID]);
+  }, []);
 
   if (sessions.length === 0) {
     return <Loading />;
@@ -35,9 +37,11 @@ export default function SelectSession({ movieID }) {
               <ShowtimesContainer>
                 {session.showtimes.map((showtime) => {
                   return (
-                    <ShowtimeContainer key={showtime.id}>
-                      {showtime.name}
-                    </ShowtimeContainer>
+                    <Link to={`/assentos/${showtime.id}`} style={{textDecoration:"none"}} key={showtime.id}>
+                      <ShowtimeButton>
+                        {showtime.name}
+                      </ShowtimeButton>
+                    </Link>
                   );
                 })}
               </ShowtimesContainer>
@@ -91,11 +95,12 @@ const ShowtimesContainer = styled.div`
   display: flex;
 `;
 
-const ShowtimeContainer = styled.div`
+const ShowtimeButton = styled.div`
   background-color: pink;
   padding: 10px 15px;
   border-radius: 5px;
   margin: 10px 10px 10px 0;
+  color: #ffffff;
 `;
 const Footer = styled.div`
   position: fixed;

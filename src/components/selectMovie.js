@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Loading from "./loading";
 
 export default function SelectMovie({ setMovieID }) {
-  const URL = "https://mock-api.driven.com.br/api/v3/cineflex/movies";
-  const promise = axios.get(URL);
+  
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
+    const URL = "https://mock-api.driven.com.br/api/v5/cineflex/movies";
+    const promise = axios.get(URL);
     promise.then((response) => {
       setMovies(response.data);
     });
@@ -24,19 +26,22 @@ export default function SelectMovie({ setMovieID }) {
   }
 
   return (
+    <>
+    {(movies.length === 0) && <Loading />}
     <MoviesContainer>
       <h2>Selecione o filme!</h2>
       {movies.map((movie) => {
         return (
-          <MovieBanner>
+          <MovieBanner key={movie.id}>
             <Link to={`/sessoes/${movie.id}`}>
-              <MovieImg src={movie.posterURL} onClick={handleClick(movie.id)} />
+              <MovieImg src={movie.posterURL} onClick={() => handleClick(movie.id)} />
             </Link>
             <p>{movie.title}</p>
           </MovieBanner>
         );
       })}
     </MoviesContainer>
+    </>
   );
 }
 

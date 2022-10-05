@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
     <HeaderContainer>
-      <h1>CINEFLEX</h1>
+      <Link to={`/`} style={{textDecoration:"none"}}>
+        <h1>CINEFLEX</h1>
+      </Link>
     </HeaderContainer>
   );
 }
@@ -18,7 +21,7 @@ const HeaderContainer = styled.div`
   box-shadow: 0px 0px 26px -7px #666666;
   h1 {
     font-size: 50px;
-    font-family: 'Caveat Brush', cursive;
+    font-family: "Caveat Brush", cursive;
     text-shadow: 0px 0px 8px #666666;
     color: #ffffff;
   }

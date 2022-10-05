@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Routes, Route, } from "react-router-dom";
+import GlobalStyle from "./assets/globalStyles";
+import Header from '../src/components/header';
+import SelectMovie from '../src/components/selectMovie';
+import SelectTime from '../src/components/selectTime';
+import SelectSeats from '../src/components/selectSeats';
+import ConfirmOrder from '../src/components/confirmOrder';
+import { useState } from "react";
 
 function App() {
+  const [movieID, setMovieID] = useState()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <GlobalStyle />
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<SelectMovie setMovieID = {setMovieID} />}/>
+        <Route path="/sessoes/:idFilme" element={<SelectTime />}/>
+        <Route path="/assentos/:idSessao" element={<SelectSeats />}/>
+        <Route path="/confirm/:idOrder" element={<ConfirmOrder />}/>
+      </Routes>
+    </BrowserRouter>
+    </>
   );
 }
 

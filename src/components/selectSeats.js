@@ -20,11 +20,25 @@ export default function SelectSeats() {
         "something went wrong, please check your internet connection and try again"
       );
     });
-  }, []);
+  }, [sessionId]);
 
-  function handleSeatClick(id) {
-    const newIsClicked = [...isClicked, id];
+  function handleSeatClick(id, name) {
+    let newIsClicked;
+    if (isClicked.includes(id)) {
+      if (window.confirm(`Você realmente quer remover a cadeira ${name}?`)) {
+        newIsClicked = isClicked.filter((n) => n !== id);
+        setIsClicked(newIsClicked);
+        return;
+      } else {
+        return;
+      }
+    }
+    newIsClicked = [...isClicked, id];
     setIsClicked(newIsClicked);
+  }
+
+  function handleChange(id, name, inputValue){
+
   }
 
   if (sessionData.length === 0) {
@@ -38,18 +52,10 @@ export default function SelectSeats() {
           {sessionData.seats.map((seat) => {
             return (
               <SeatButton
-                onClick={() => handleSeatClick(seat.id)}
-                color={
-                  isClicked.includes(seat.id)
-                    ? "#abf7b1"
-                    : "light-gray"
-                }
-                borderColor={
-                  isClicked.includes(seat.id)
-                    ? "green"
-                    : "gray"
-                }
-                disabled={((!seat.isAvailable) && (true))}
+                onClick={() => handleSeatClick(seat.id, seat.name)}
+                color={isClicked.includes(seat.id) ? "#abf7b1" : "light-gray"}
+                borderColor={isClicked.includes(seat.id) ? "green" : "gray"}
+                disabled={!seat.isAvailable && true}
               >
                 {seat.name}
               </SeatButton>
@@ -79,6 +85,21 @@ export default function SelectSeats() {
             <p>Indisponível</p>
           </div>
         </SeatDisplayOptions>
+        <form>
+        {isClicked.lenght !== 0 &&
+          sessionData.seats.map((seat) => {
+            if (isClicked.includes(seat.id))
+            {return (
+            <InputsContainer>
+                <h3>Assento {seat.name}</h3>
+                <label>Nome do comprador:</label>
+                <input type="text" placeholder="Insira o nome aqui"></input>
+                <label>CPF do comprador</label>
+                <input type="number" placeholder="Insira o CPF aqui"></input>
+            </InputsContainer>
+            );}
+          })}
+          </form>
       </SeatsContainer>
       <Footer>
         <img src={sessionData.movie.posterURL} alt={sessionData.movie.title} />
@@ -162,6 +183,31 @@ const SeatDisplayOptionsButton = styled.button`
   width: 30px;
   height: 30px;
   border-radius: 50%;
+`;
+
+const InputsContainer = styled.div`
+font-family: "Roboto", sans-serif;
+margin: 10px 0;
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+h3 {
+    font-weight:600;
+    margin-bottom: 5px;
+}
+label {
+    margin-bottom: 5px;
+}
+input {
+    width: 90%;
+    height: 3vh;
+    border: 1px solid yellow;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 4px;
+    box-shadow: 0px 0px 15px -10px #666666;
+}
 `;
 
 const Footer = styled.div`

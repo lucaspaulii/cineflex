@@ -33,7 +33,7 @@ export default function ConfirmOrder() {
         <p>Nome: {name}</p>
         <p>CPF: {cpf}</p>
       </InformationContainer>
-      <Link to="/">
+      <Link to="/main">
         <HomeButton>Início</HomeButton>
       </Link>
     </ConfirmContainer>

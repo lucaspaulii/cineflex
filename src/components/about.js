@@ -30,7 +30,7 @@ export default function About() {
       <img src={movieData.posterURL} alt={movieData.title}></img>
       <p>{movieData.overview}</p>
       <ButtonsContainer>
-        <Link to="/">
+        <Link to="/main">
           <button>Voltar</button>
         </Link>
         <Link to={`/sessoes/${movieId}`}>

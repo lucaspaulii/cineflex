@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function Header() {
   return (
     <HeaderContainer>
-      <Link to={`/`} style={{textDecoration:"none"}}>
+      <Link to={`/main`} style={{textDecoration:"none"}}>
         <h1>CINEFLEX</h1>
       </Link>
     </HeaderContainer>

@@ -61,14 +61,15 @@ const AboutHeader = styled.div`
     border-bottom: 1px solid black;
   }
   img {
-    width: 60%;
+    max-width: 60%;
+    max-height: 50vh;
     border-radius: 15px;
     margin-bottom: 20px;
   }
   p {
     text-align: justify;
     font-family: "Roboto", sans-serif;
-    width: 90%;
+    max-width: 90%;
     font-size: 13px;
     margin-bottom: 20px;
   }

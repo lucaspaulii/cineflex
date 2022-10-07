@@ -3,11 +3,16 @@ import axios from "axios";
 import Loading from "./loading";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 export default function SelectSeats() {
   const [sessionData, setSessionData] = useState([]);
   const { sessionId } = useParams();
   const [isClicked, setIsClicked] = useState([]);
+  const [seatNames, setSeatNames] = useState([]);
+  const [name, setName] = useState();
+  const [cpf, setCpf] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const URL = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessionId}/seats`;
@@ -24,6 +29,7 @@ export default function SelectSeats() {
 
   function handleSeatClick(id, name) {
     let newIsClicked;
+    let newSeatNames;
     if (isClicked.includes(id)) {
       if (window.confirm(`Você realmente quer remover a cadeira ${name}?`)) {
         newIsClicked = isClicked.filter((n) => n !== id);
@@ -34,11 +40,43 @@ export default function SelectSeats() {
       }
     }
     newIsClicked = [...isClicked, id];
+    newSeatNames = [...seatNames, name];
+    setSeatNames(newSeatNames);
     setIsClicked(newIsClicked);
   }
 
-  function handleChange(id, name, inputValue){
-
+  function handleSubmit(e) {
+    e.preventDefault();
+    const body = { ids: [...isClicked], name, cpf };
+    const URL =
+      "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many";
+    const promise = axios.post(URL, body);
+    let newNavigate = "/confirm/";
+    seatNames.forEach((element) => {
+      newNavigate += `${element}$`;
+    });
+    const encryptedName = name.replaceAll(" ", "$");
+    const encryptedMovieName = sessionData.movie.title.replaceAll(" ", "$");
+    const encryptedDate = sessionData.day.date.replaceAll("/", "$");
+    newNavigate =
+      newNavigate +
+      "&" +
+      encryptedName +
+      "&" +
+      cpf +
+      "&" +
+      encryptedMovieName +
+      "&" +
+      encryptedDate +
+      "&" +
+      sessionData.name;
+    promise.then((response) => {
+      navigate(`${newNavigate}`);
+      console.log(response.data)
+    });
+    promise.catch((error) => {
+      console.log(error);
+    });
   }
 
   if (sessionData.length === 0) {
@@ -56,6 +94,7 @@ export default function SelectSeats() {
                 color={isClicked.includes(seat.id) ? "#abf7b1" : "light-gray"}
                 borderColor={isClicked.includes(seat.id) ? "green" : "gray"}
                 disabled={!seat.isAvailable && true}
+                key={seat.id}
               >
                 {seat.name}
               </SeatButton>
@@ -85,21 +124,30 @@ export default function SelectSeats() {
             <p>Indisponível</p>
           </div>
         </SeatDisplayOptions>
-        <form>
-        {isClicked.lenght !== 0 &&
-          sessionData.seats.map((seat) => {
-            if (isClicked.includes(seat.id))
-            {return (
-            <InputsContainer>
-                <h3>Assento {seat.name}</h3>
-                <label>Nome do comprador:</label>
-                <input type="text" placeholder="Insira o nome aqui"></input>
-                <label>CPF do comprador</label>
-                <input type="number" placeholder="Insira o CPF aqui"></input>
-            </InputsContainer>
-            );}
-          })}
-          </form>
+        <form onSubmit={handleSubmit}>
+          <InputsContainer>
+            {/*<h3>Assento {seat.name}</h3>*/}
+            <label forhtml="name">Nome do comprador:</label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              placeholder="Insira o nome aqui"
+              onChange={(e) => setName(e.target.value)}
+              required
+            ></input>
+            <label forhtml="cpf">CPF do comprador</label>
+            <input
+              id="cpf"
+              type="number"
+              value={cpf}
+              placeholder="Insira o CPF aqui"
+              onChange={(e) => setCpf(e.target.value)}
+              required
+            ></input>
+          </InputsContainer>
+          <SubmitButton type="submit">Reservar assento(s)</SubmitButton>
+        </form>
       </SeatsContainer>
       <Footer>
         <img src={sessionData.movie.posterURL} alt={sessionData.movie.title} />
@@ -186,20 +234,20 @@ const SeatDisplayOptionsButton = styled.button`
 `;
 
 const InputsContainer = styled.div`
-font-family: "Roboto", sans-serif;
-margin: 10px 0;
-width: 100%;
-display: flex;
-flex-direction: column;
-align-items: center;
-h3 {
-    font-weight:600;
+  font-family: "Roboto", sans-serif;
+  margin: 10px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h3 {
+    font-weight: 600;
     margin-bottom: 5px;
-}
-label {
+  }
+  label {
     margin-bottom: 5px;
-}
-input {
+  }
+  input {
     width: 90%;
     height: 3vh;
     border: 1px solid yellow;
@@ -207,7 +255,7 @@ input {
     margin-bottom: 5px;
     padding: 4px;
     box-shadow: 0px 0px 15px -10px #666666;
-}
+  }
 `;
 
 const Footer = styled.div`
@@ -236,4 +284,8 @@ const Footer = styled.div`
     display: flex;
     flex-direction: column;
   }
+`;
+const SubmitButton = styled.button`
+  margin: 0 auto;
+  width: 100%;
 `;

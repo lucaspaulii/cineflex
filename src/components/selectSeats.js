@@ -33,7 +33,9 @@ export default function SelectSeats() {
     if (isClicked.includes(id)) {
       if (window.confirm(`Você realmente quer remover a cadeira ${name}?`)) {
         newIsClicked = isClicked.filter((n) => n !== id);
+        newSeatNames = seatNames.filter((n) => n !== name);
         setIsClicked(newIsClicked);
+        setSeatNames(newSeatNames);
         return;
       } else {
         return;
@@ -72,7 +74,6 @@ export default function SelectSeats() {
       sessionData.name;
     promise.then((response) => {
       navigate(`${newNavigate}`);
-      console.log(response.data);
     });
     promise.catch((error) => {
       console.log(error);
@@ -146,7 +147,7 @@ export default function SelectSeats() {
               required
             ></input>
           </InputsContainer>
-          <SubmitButton type="submit">Reservar assento(s)</SubmitButton>
+          <SubmitButton type="submit" disabled={(isClicked.length === 0 ? true : false)}>Reservar assento(s)</SubmitButton>
         </form>
       </SeatsContainer>
       <Footer>

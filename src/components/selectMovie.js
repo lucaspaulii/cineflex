@@ -28,7 +28,7 @@ export default function SelectMovie() {
       {movies.map((movie) => {
         return (
           <MovieBanner key={movie.id}>
-            <Link to={`/sessoes/${movie.id}`}>
+            <Link to={`/about/${movie.id}`}>
               <MovieImg src={movie.posterURL} />
             </Link>
             <p>{movie.title}</p>

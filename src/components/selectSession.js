@@ -21,7 +21,7 @@ export default function SelectSession() {
         "something went wrong, please check your internet connection and try again"
       );
     });
-  }, []);
+  }, [movieId]);
 
   if (sessions.length === 0) {
     return <Loading />;
@@ -81,12 +81,13 @@ const SessionContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   font-family: "Roboto", sans-serif;
   font-size: 20px;
   border-bottom: 1px solid #6666664d;
 
   p {
-    font-size: 23px;
+    font-size: 19px;
     font-weight: 300;
   }
 `;
@@ -96,16 +97,17 @@ const ShowtimesContainer = styled.div`
 `;
 
 const ShowtimeButton = styled.div`
-  background-color: pink;
+  background-color: #deb1b1;
   padding: 10px 15px;
   border-radius: 5px;
   margin: 10px 10px 10px 0;
   color: #ffffff;
+  font-size: 17px;
 `;
 const Footer = styled.div`
   position: fixed;
   bottom: 0;
-  height: 120px;
+  height: 80px;
   width: 100%;
   background-color: #800000;
   display: flex;
@@ -114,13 +116,13 @@ const Footer = styled.div`
   font-family: "Roboto", sans-serif;
 
   img {
-    height: 90%;
+    height: 80%;
     width: auto;
     border: 3px solid #ffffff;
     margin-right: 30px;
   }
   p {
-    font-size: 27px;
+    font-size: 20px;
     font-weight: 400;
     color: #ffffff;
   }

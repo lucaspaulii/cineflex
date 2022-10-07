@@ -34,7 +34,7 @@ export default function ConfirmOrder() {
         <p>CPF: {cpf}</p>
       </InformationContainer>
       <Link to="/">
-        <HomeButton>Voltar para Home!</HomeButton>
+        <HomeButton>Início</HomeButton>
       </Link>
     </ConfirmContainer>
   );
@@ -44,8 +44,9 @@ const ConfirmContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 80vh;
   h2 {
-    width: 100%;
+    width: 90%;
     text-align: center;
     margin: 30px 0;
     padding: 10px;
@@ -55,26 +56,33 @@ const ConfirmContainer = styled.div`
     text-shadow: 0px 0px 2px #808080;
     border-bottom: 1px solid black;
     color: green;
-    text-shadow: 0px 0px 8px #666666;
   }
 `;
 const InformationContainer = styled.div`
-  margin: 0 0 50px 50px;
+  padding: 0 0 2px 0;
   font-family: "Roboto", sans-serif;
-  width: 100%;
+  width: 80%;
+  border-radius: 10px;
+  border: 2px solid #fffee0;
+  background-color: #abf7b1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   h3 {
     font-size: 25px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin: 10px 0;
   }
   p {
     font-size: 20px;
-    margin-bottom: 8px;
+    margin: 5px 0;
   }
 `;
 
 const HomeButton = styled.button`
+margin-top: 20px;
   width: 200px;
   height: 60px;
   background-color: #800000;
@@ -82,6 +90,6 @@ const HomeButton = styled.button`
   border-radius: 15px;
   color: #ffffff;
   font-family: "Caveat Brush", cursive;
-  font-size: 24px;
+  font-size: 27px;
   box-shadow: 0px 0px 26px -7px #666666;
 `;

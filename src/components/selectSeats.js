@@ -72,7 +72,7 @@ export default function SelectSeats() {
       sessionData.name;
     promise.then((response) => {
       navigate(`${newNavigate}`);
-      console.log(response.data)
+      console.log(response.data);
     });
     promise.catch((error) => {
       console.log(error);
@@ -166,6 +166,7 @@ const SeatsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   margin: 0 30px 150px;
 
   h2 {
@@ -184,6 +185,8 @@ const SeatsContainer = styled.div`
 const SeatButtonContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const SeatButton = styled.button`
@@ -250,7 +253,7 @@ const InputsContainer = styled.div`
   input {
     width: 90%;
     height: 3vh;
-    border: 1px solid yellow;
+    border: 1px solid orange;
     border-radius: 5px;
     margin-bottom: 5px;
     padding: 4px;
@@ -261,7 +264,7 @@ const InputsContainer = styled.div`
 const Footer = styled.div`
   position: fixed;
   bottom: 0;
-  height: 120px;
+  height: 80px;
   width: 100%;
   background-color: #800000;
   display: flex;
@@ -270,7 +273,7 @@ const Footer = styled.div`
   font-family: "Roboto", sans-serif;
 
   img {
-    height: 90%;
+    height: 80%;
     width: auto;
     border: 3px solid #ffffff;
     margin-right: 30px;
@@ -288,4 +291,11 @@ const Footer = styled.div`
 const SubmitButton = styled.button`
   margin: 0 auto;
   width: 100%;
+  background-color: #a35a5a;
+  border: none;
+  border-radius: 15px;
+  color: #ffffff;
+  font-family: "Caveat Brush", cursive;
+  padding: 5px 10px;
+  font-size: 17px;
 `;

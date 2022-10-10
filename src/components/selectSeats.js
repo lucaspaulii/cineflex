@@ -27,9 +27,14 @@ export default function SelectSeats() {
     });
   }, [sessionId]);
 
-  function handleSeatClick(id, name) {
+  function handleSeatClick(id, name, isAvailable) {
     let newIsClicked;
     let newSeatNames;
+    console.log(isAvailable)
+    if (!isAvailable) {
+      alert(`Assento não disponìvel, favor escolher outro!`);
+      return
+    }
     if (isClicked.includes(id)) {
       if (window.confirm(`Você realmente quer remover a cadeira ${name}?`)) {
         newIsClicked = isClicked.filter((n) => n !== id);
@@ -49,6 +54,10 @@ export default function SelectSeats() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (disableForm()) {
+      alert(`algo esta errado, favor conferir seus dados e assentos selecionados!`);
+      return
+    }
     const body = { ids: [...isClicked], name, cpf };
     const URL =
       "https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many";
@@ -80,6 +89,17 @@ export default function SelectSeats() {
     });
   }
 
+  function handleCpf(value) {
+    if (value.length === 11) {
+      setCpf(value)
+    }
+  }
+  function disableForm() {
+    if ((isClicked.length === 0) || (!name) || (!cpf)) {
+      return true
+    } else return false
+  }
+
   if (sessionData.length === 0) {
     return <Loading />;
   }
@@ -91,10 +111,9 @@ export default function SelectSeats() {
           {sessionData.seats.map((seat) => {
             return (
               <SeatButton
-                onClick={() => handleSeatClick(seat.id, seat.name)}
-                color={isClicked.includes(seat.id) ? "#abf7b1" : "light-gray"}
-                borderColor={isClicked.includes(seat.id) ? "green" : "gray"}
-                disabled={!seat.isAvailable && true}
+                onClick={() => handleSeatClick(seat.id, seat.name, seat.isAvailable)}
+                color={!seat.isAvailable ? "pink" : isClicked.includes(seat.id) ? "#abf7b1" : "light-gray" }
+                borderColor={!seat.isAvailable ? "#800000" : isClicked.includes(seat.id) ? "green" : "gray"}
                 key={seat.id}
               >
                 {seat.name}
@@ -143,11 +162,11 @@ export default function SelectSeats() {
               type="number"
               value={cpf}
               placeholder="Insira o CPF aqui"
-              onChange={(e) => setCpf(e.target.value)}
+              onChange={(e) => handleCpf(e.target.value)}
               required
             ></input>
           </InputsContainer>
-          <SubmitButton type="submit" disabled={(isClicked.length === 0 ? true : false)}>Reservar assento(s)</SubmitButton>
+          <SubmitButton type="submit">Reservar assento(s)</SubmitButton>
         </form>
       </SeatsContainer>
       <Footer>
